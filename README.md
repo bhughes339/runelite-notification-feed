@@ -6,6 +6,8 @@ Any notification that RuneLite sends shows up in the feed, including ones from c
 
 ![alt text](image.png)
 
+This plugin is similar to another active plugin, [Notification Panel](https://runelite.net/plugin-hub/show/notification-panel), which works very well. I created this plugin to cater to my preferred "feed" style using the "[Time] Message" format to more closely match the RuneScape UX.
+
 ## Usage
 
 - Move the feed by holding <kbd>Alt</kbd> and dragging it. While <kbd>Alt</kbd> is held, the feed stays visible even when it has no notifications.
