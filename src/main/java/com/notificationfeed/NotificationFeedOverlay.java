@@ -11,6 +11,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import javax.inject.Inject;
 import lombok.Value;
 import net.runelite.api.Client;
@@ -40,6 +41,7 @@ class NotificationFeedOverlay extends Overlay
 	private final NotificationFeed feed;
 	private final NotificationFeedConfig config;
 	private final BackgroundComponent background = new BackgroundComponent();
+	private CustomTimestampFormat customTimestampFormat = CustomTimestampFormat.compile(null);
 
 	@Inject
 	NotificationFeedOverlay(NotificationFeedPlugin plugin, Client client, NotificationFeed feed, NotificationFeedConfig config)
@@ -132,12 +134,17 @@ class NotificationFeedOverlay extends Overlay
 		long now, long durationMs)
 	{
 		TimestampStyle timestampStyle = config.timestampStyle();
+		String customPattern = config.customTimestampFormat();
+		if (!Objects.equals(customPattern, customTimestampFormat.getPattern()))
+		{
+			customTimestampFormat = CustomTimestampFormat.compile(customPattern);
+		}
 		int spaceWidth = fm.stringWidth(" ");
 		List<Block> blocks = new ArrayList<>(entries.size());
 
 		for (FeedEntry entry : entries)
 		{
-			String timestamp = timestampStyle.format(entry.getTimestamp(), now);
+			String timestamp = timestampStyle.format(entry.getTimestamp(), now, customTimestampFormat);
 			String prefix = timestamp != null ? timestamp : "";
 			int prefixWidth = prefix.isEmpty() ? 0 : fm.stringWidth(prefix) + spaceWidth;
 

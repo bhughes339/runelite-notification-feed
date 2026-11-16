@@ -2,10 +2,15 @@ package com.notificationfeed;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import org.junit.Test;
 
 public class TimestampStyleTest
 {
+	private static final long TIME = LocalDateTime.of(2026, 11, 16, 13, 5, 9)
+		.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+
 	@Test
 	public void relative()
 	{
@@ -20,6 +25,43 @@ public class TimestampStyleTest
 	@Test
 	public void noneFormatsToNull()
 	{
-		assertNull(TimestampStyle.NONE.format(0, 0));
+		assertNull(TimestampStyle.NONE.format(0, 0, CustomTimestampFormat.compile("HH:mm")));
+	}
+
+	@Test
+	public void customPattern()
+	{
+		assertEquals("13:05:09", custom("HH:mm:ss", TIME));
+		assertEquals("1:05 PM 16/11", custom("h:mm a dd/MM", TIME));
+		assertEquals("13:05 at Mon", custom("HH:mm 'at' EEE", TIME));
+	}
+
+	@Test
+	public void customRelative()
+	{
+		long now = TIME + 120_000;
+		assertEquals("2m ago", custom("{relative}", now));
+		assertEquals("13:05 (2m ago)", custom("HH:mm ({relative})", now));
+		assertEquals("2m ago, 13:05, 2m ago", custom("{relative}, HH:mm, {relative}", now));
+	}
+
+	@Test
+	public void customBlankShowsNothing()
+	{
+		assertNull(custom("", TIME));
+		assertNull(custom("  ", TIME));
+		assertNull(custom(null, TIME));
+	}
+
+	@Test
+	public void customInvalid()
+	{
+		assertEquals(CustomTimestampFormat.INVALID, custom("HH:mm 'unterminated", TIME));
+		assertEquals(CustomTimestampFormat.INVALID, custom("ZZZZZZ", TIME));
+	}
+
+	private static String custom(String pattern, long now)
+	{
+		return TimestampStyle.CUSTOM.format(TIME, now, CustomTimestampFormat.compile(pattern));
 	}
 }

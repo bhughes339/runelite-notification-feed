@@ -163,11 +163,24 @@ public interface NotificationFeedConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "customTimestampFormat",
+		name = "Custom timestamp",
+		description = "Format used when Timestamp is set to Custom, e.g. HH:mm:ss."
+			+ " See \"Custom timestamp format\" in the plugin's README for the full syntax.",
+		position = 2,
+		section = appearanceSection
+	)
+	default String customTimestampFormat()
+	{
+		return "HH:mm:ss";
+	}
+
+	@ConfigItem(
 		keyName = "wrapText",
 		name = "Wrap long text",
 		description = "Wrap long notifications onto multiple lines instead of cutting them off."
 			+ " Resize the feed by Alt-dragging its edge.",
-		position = 2,
+		position = 3,
 		section = appearanceSection
 	)
 	default boolean wrapText()
@@ -179,7 +192,7 @@ public interface NotificationFeedConfig extends Config
 		keyName = "font",
 		name = "Font",
 		description = "Font used for notification text",
-		position = 3,
+		position = 4,
 		section = appearanceSection
 	)
 	default FontType font()
@@ -191,7 +204,7 @@ public interface NotificationFeedConfig extends Config
 		keyName = "textColor",
 		name = "Text color",
 		description = "Color of notification text",
-		position = 4,
+		position = 5,
 		section = appearanceSection
 	)
 	default Color textColor()
@@ -203,7 +216,7 @@ public interface NotificationFeedConfig extends Config
 		keyName = "timestampColor",
 		name = "Timestamp color",
 		description = "Color of timestamps and duplicate counts",
-		position = 5,
+		position = 6,
 		section = appearanceSection
 	)
 	default Color timestampColor()
@@ -216,7 +229,7 @@ public interface NotificationFeedConfig extends Config
 		keyName = "backgroundColor",
 		name = "Background color",
 		description = "Background color of the feed",
-		position = 6,
+		position = 7,
 		section = appearanceSection
 	)
 	default Color backgroundColor()

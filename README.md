@@ -6,7 +6,7 @@ Any notification that RuneLite sends shows up in the feed, including ones from c
 
 ![alt text](image.png)
 
-This plugin is similar to another active plugin, [Notification Panel](https://runelite.net/plugin-hub/show/notification-panel), which works very well. I created this plugin to cater to my preferred "feed" style using the "[Time] Message" format to more closely match the RuneScape UX.
+This plugin is similar to another active plugin, [Notification Panel](https://runelite.net/plugin-hub/show/notification-panel), which works very well. I created this plugin to cater to my preferred "feed" style using the "{time} {message}" format to more closely match the RuneScape UX.
 
 ## Usage
 
@@ -34,7 +34,26 @@ This plugin is similar to another active plugin, [Notification Panel](https://ru
 | Setting | Description |
 | --- | --- |
 | Style | Separate boxes per notification, or one panel |
-| Timestamp | None, 24-hour, 12-hour (with or without seconds), or relative ("2m ago") |
+| Timestamp | None, 24-hour, 12-hour (with or without seconds), relative ("2m ago"), or custom |
+| Custom timestamp | Format used by the Custom timestamp option, e.g. `HH:mm:ss` or `HH:mm ({relative})`. See below |
 | Wrap long text | Wrap long notifications, or cut them off with "..." |
 | Font | Notification font |
 | Text / Timestamp / Background color | Colors |
+
+### Custom timestamp format
+
+The custom format uses Java's [date/time pattern letters](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/format/DateTimeFormatter.html#patterns). Letters are case-sensitive: `mm` is minutes, `MM` is the month.
+
+| Pattern | Meaning | Example |
+| --- | --- | --- |
+| `HH` / `H` | Hour, 00-23 / 0-23 | `13` |
+| `hh` / `h` | Hour, 01-12 / 1-12 | `1` |
+| `mm` | Minute | `05` |
+| `ss` | Second | `09` |
+| `a` | AM/PM | `PM` |
+| `dd` / `MM` / `yyyy` | Day / month / year | `16` / `11` / `2026` |
+| `EEE` | Weekday | `Mon` |
+| `{relative}` | Time since the notification | `2m ago` |
+| `'text'` | Literal text | `'at'` → `at` |
+
+For example, `h:mm a ({relative})` shows `[1:05 PM (2m ago)]`. If the pattern is invalid the feed shows `[invalid format]`; leave it blank to hide timestamps.

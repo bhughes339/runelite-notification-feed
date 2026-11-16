@@ -13,15 +13,18 @@ public enum TimestampStyle
 	TIME_24H_SECONDS("24-hour (13:05:09)", DateTimeFormatter.ofPattern("HH:mm:ss")),
 	TIME_12H("12-hour (1:05 PM)", DateTimeFormatter.ofPattern("h:mm a")),
 	TIME_12H_SECONDS("12-hour (1:05:09 PM)", DateTimeFormatter.ofPattern("h:mm:ss a")),
-	RELATIVE("Relative (2m ago)", null);
+	RELATIVE("Relative (2m ago)", null),
+	CUSTOM("Custom", null);
 
 	private final String name;
 	private final DateTimeFormatter formatter;
 
 	/**
-	 * Formats an epoch-millis timestamp, or returns null for {@link #NONE}.
+	 * Formats an epoch-millis timestamp, or returns null when no timestamp should be shown.
+	 *
+	 * @param custom the user's pattern, used only by {@link #CUSTOM}
 	 */
-	String format(long timestamp, long now)
+	String format(long timestamp, long now, CustomTimestampFormat custom)
 	{
 		switch (this)
 		{
@@ -29,6 +32,8 @@ public enum TimestampStyle
 				return null;
 			case RELATIVE:
 				return formatRelative(now - timestamp);
+			case CUSTOM:
+				return custom.format(timestamp, now);
 			default:
 				return formatter.format(Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault()));
 		}
