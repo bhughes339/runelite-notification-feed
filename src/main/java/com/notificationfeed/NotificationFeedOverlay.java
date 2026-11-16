@@ -142,11 +142,26 @@ class NotificationFeedOverlay extends Overlay
 		int spaceWidth = fm.stringWidth(" ");
 		List<Block> blocks = new ArrayList<>(entries.size());
 
+		List<String> prefixes = new ArrayList<>(entries.size());
+		int alignedPrefixWidth = 0;
 		for (FeedEntry entry : entries)
 		{
 			String timestamp = timestampStyle.format(entry.getTimestamp(), now, customTimestampFormat);
 			String prefix = timestamp != null ? timestamp : "";
-			int prefixWidth = prefix.isEmpty() ? 0 : fm.stringWidth(prefix) + spaceWidth;
+			prefixes.add(prefix);
+			if (!prefix.isEmpty())
+			{
+				alignedPrefixWidth = Math.max(alignedPrefixWidth, fm.stringWidth(prefix) + spaceWidth);
+			}
+		}
+		boolean align = config.alignMessages();
+
+		for (int i = 0; i < entries.size(); i++)
+		{
+			FeedEntry entry = entries.get(i);
+			String prefix = prefixes.get(i);
+			int prefixWidth = align ? alignedPrefixWidth
+				: prefix.isEmpty() ? 0 : fm.stringWidth(prefix) + spaceWidth;
 
 			String count = entry.getCount() > 1 ? "x" + entry.getCount() : "";
 			int countWidth = count.isEmpty() ? 0 : spaceWidth + countFm.stringWidth(count);

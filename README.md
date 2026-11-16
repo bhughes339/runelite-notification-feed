@@ -36,6 +36,7 @@ This plugin is similar to another active plugin, [Notification Panel](https://ru
 | Style | Separate boxes per notification, or one panel |
 | Timestamp | None, 24-hour, 12-hour (with or without seconds), relative ("2m ago"), or custom |
 | Custom timestamp | Format used by the Custom timestamp option, e.g. `HH:mm:ss` or `HH:mm ({relative})`. See below |
+| Align messages | Pad timestamps to the width of the longest one so messages line up |
 | Wrap long text | Wrap long notifications, or cut them off with "..." |
 | Font | Notification font |
 | Text / Timestamp / Background color | Colors |

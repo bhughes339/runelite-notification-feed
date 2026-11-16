@@ -176,11 +176,23 @@ public interface NotificationFeedConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "alignMessages",
+		name = "Align messages",
+		description = "Pad timestamps to the width of the longest one so all messages start at the same position",
+		position = 3,
+		section = appearanceSection
+	)
+	default boolean alignMessages()
+	{
+		return false;
+	}
+
+	@ConfigItem(
 		keyName = "wrapText",
 		name = "Wrap long text",
 		description = "Wrap long notifications onto multiple lines instead of cutting them off."
 			+ " Resize the feed by Alt-dragging its edge.",
-		position = 3,
+		position = 4,
 		section = appearanceSection
 	)
 	default boolean wrapText()
@@ -192,7 +204,7 @@ public interface NotificationFeedConfig extends Config
 		keyName = "font",
 		name = "Font",
 		description = "Font used for notification text",
-		position = 4,
+		position = 5,
 		section = appearanceSection
 	)
 	default FontType font()
@@ -204,7 +216,7 @@ public interface NotificationFeedConfig extends Config
 		keyName = "textColor",
 		name = "Text color",
 		description = "Color of notification text",
-		position = 5,
+		position = 6,
 		section = appearanceSection
 	)
 	default Color textColor()
@@ -216,7 +228,7 @@ public interface NotificationFeedConfig extends Config
 		keyName = "timestampColor",
 		name = "Timestamp color",
 		description = "Color of timestamps and duplicate counts",
-		position = 6,
+		position = 7,
 		section = appearanceSection
 	)
 	default Color timestampColor()
@@ -229,7 +241,7 @@ public interface NotificationFeedConfig extends Config
 		keyName = "backgroundColor",
 		name = "Background color",
 		description = "Background color of the feed",
-		position = 7,
+		position = 8,
 		section = appearanceSection
 	)
 	default Color backgroundColor()
